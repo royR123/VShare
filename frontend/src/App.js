@@ -15,7 +15,6 @@ import styled, { ThemeProvider } from 'styled-components'
 import Menu from './components/Menu'
 import Navbar from './components/Navbar';
 import {darkTheme , lightTheme} from './utils/Theme.js'
-import Home from '@mui/icons-material/Home';
 import Auth from './components/Auth';
 
 const Container = styled.div`
@@ -47,12 +46,13 @@ function App() {
           <Wrapper>
             <Routes>
               <Route path='/'>
-                <Route index element = {<HomeP />} />
+                <Route index element = {<HomeP typeR = 'random' />} />
+                <Route path = 'explore' element = {<HomeP typeR = 'trending' />} />
+                <Route path = 'subscribed' element = {<HomeP typeR = 'subscribed' />} />
                 <Route path = 'video'>
                   <Route path=':id' element = {<Video />} />
                 </Route>
                 <Route path = 'auth' element = {<Auth />} />
-
               </Route>
             </Routes>
           </Wrapper>

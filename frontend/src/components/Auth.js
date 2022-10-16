@@ -1,6 +1,10 @@
 
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { loginFailure, loginStart , loginSuccess} from '../redux/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -10,6 +14,13 @@ const Container = styled.div`
   /* align-items: center; */
   height: 60vh;
   width: 250px;
+`
+
+const Wrapper = styled.form`
+  display:flex;
+  flex-direction: column;
+  width:250px;
+  
 `
 
 
@@ -23,7 +34,7 @@ const Input = styled.input`
       outline:none;
     }
 `
-const Button = styled.div`
+const Button = styled.button`
     font-weight : bold;
     cursor: pointer;
     color: blue;
@@ -56,13 +67,57 @@ const Change = styled.div`
   font-weight:lighter;
 `
 const Auth = () => {
+  const [name,setName] = useState(null);
+  const [email,setEmail] = useState(null);
+  const [password,setPassword] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [forLogin,setForLogin] = useState(false);
   const handleChange = () =>{
       setForLogin((prev) => !prev)
   }
-  const handleClick = () => {
-
+  const handleClick = async (e) => {
+    e.preventDefault();
+    dispatch(loginStart());
+    try {
+      if(forLogin){
+        if(!name || !password){
+          dispatch(loginFailure());
+          return;
+        }
+        const response = await axios.post(`/user/login`,{name , password});
+        if(response.status !== 200){
+          dispatch(loginFailure());
+          return;
+        }
+        console.log(response.data);
+        dispatch(loginSuccess(response.data));
+        navigate('/');
+        console.log(response);
+      }else{
+        if(!name || !password || !email){
+          dispatch(loginFailure());
+          return;
+        }
+        const response = await axios.post(`/user/signup`,{
+          name , email , password
+        });
+        if(response.status !== 200){
+          dispatch(loginFailure());
+          return;
+        }
+        console.log(response.data);
+        dispatch(loginSuccess(response.data));
+        navigate('/');
+        console.log(`${response} is response`);
+      }
+    } catch (error) {
+      dispatch(loginFailure());
+    }
+    setName(null);
+    setEmail(null);
+    setPassword(null);
   };
   return (
     <Container>
@@ -70,12 +125,14 @@ const Auth = () => {
         <Title>
           {!forLogin ? 'SignUp' : 'Login'}
         </Title>
-        <Input placeholder='username'required = {true}/>
-        {!forLogin && <Input placeholder='email' required ={true} />}
-        <Input type = 'password' placeholder='password' required/>
-        <Button onClick={handleClick}> Submit </Button>
-        <Text>{!forLogin ? 'already have an account?' : "Don't have an account?"}</Text>
-        <Change onClick={handleChange}>{!forLogin ? 'Login' : 'SignUp'}</Change>
+        <Wrapper>
+          <Input type = 'text' placeholder='username'required = {true} onChange = {(e) => setName(() => e.target.value)} />
+          {!forLogin && <Input type = 'email' placeholder='email' required ={true} onChange = {(e) => setEmail(() => e.target.value)} />}
+          <Input type = 'password' placeholder='password' required = {true} onChange = {(e) => setPassword(() => e.target.value)} />
+          <Button onClick={handleClick} type = 'submit' > Submit </Button>
+          <Text>{!forLogin ? 'already have an account?' : "Don't have an account?"}</Text>
+          <Change onClick={handleChange}>{!forLogin ? 'Login' : 'SignUp'}</Change>
+        </Wrapper>
       
     </Container>
   )

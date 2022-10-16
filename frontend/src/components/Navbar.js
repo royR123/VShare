@@ -1,16 +1,19 @@
-import React from 'react'
+import React ,{ useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import UserTab from './UserTab';
+import UploadVideo from './UploadVideo';
 
 const Container = styled.div`
 
-    background-color: ${({theme}) => theme.bg};
+    background-color: ${({ theme }) => theme.bg};
     position: sticky;
     top: 0px;
+    height:47px;
 `
 
 const Wrapper = styled.div`
@@ -26,7 +29,7 @@ const Search = styled.div`
     /* background-color: red; */
     width : 40vw;
     border-radius : 10px;
-    background-color : ${({theme}) => theme.bgLighter};
+    background-color : ${({ theme }) => theme.bgLighter};
     justify-content: space-between;
     align-items: center;
 `
@@ -35,13 +38,30 @@ const Input = styled.input`
     /* position: */
     width: 80%;
     border : none;
-    color:  ${({theme}) => theme.text};
+    color:  ${({ theme }) => theme.text};
     /* color: red; */
     background-color: transparent;
     &:focus{
         outline:none;
     }
 `
+const User = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap : 3px;
+    align-items:center ;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    ` 
+const Image = styled.img`
+    height: 45px;
+    width: 40px;
+    border-radius: 50%;
+    background-color: blue;
+    border: none;
+    /* hie */
+    `
 
 const SearchButton = styled.div`
     display: flex;
@@ -62,28 +82,54 @@ const Button = styled.div`
     align-items: center;
     /* background-color : transparent; */
 `
-
+const Item = styled.div`
+    height: 45px;
+    width: 40px;
+    border-radius: 50%;
+    /* background-color: blue; */
+    border: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+`
 
 const Navbar = () => {
-  return (
-    <Container>
-        <Wrapper>
-            <Search>
-                <Input placeholder='Search' />
-                <SearchButton>
-                    <SearchIcon />
-                </SearchButton>
-            </Search>
-            <Link to = "auth" style={{textDecoration : "none" , color : "inherit"}}>
-            <Button>
-                <AccountCircleIcon />
-                SignUp
-            </Button>
-            </Link>
-        </Wrapper>
+    const [userClicked,setUserClicked] = useState(false);
+    const [uploadVideoClicked,setUploadVideoClicked] = useState(false);
+    const {userData} = useSelector(state => state.user)
+    return (
+        <div>
+            <Container>
+                <Wrapper>
+                    <Search>
+                        <Input placeholder='Search' />
+                        <SearchButton>
+                            <SearchIcon />
+                        </SearchButton>
+                    </Search>
+                    {
+                        userData ? 
+                        (<User >
+                            {(userData.img) && <Image src = {`${userData.img}`} alt = {'n'} onClick={() => setUserClicked((prev) => !prev)}/> }
+                            {!(userData.img) && <Item onClick={() => setUserClicked((prev) => !prev)}><AccountCircleIcon /></Item>}
+                        </User>) : (
+                            <Link to="auth" style={{ textDecoration: "none", color: "inherit" }}>
+                                <Button>
+                                    <AccountCircleIcon />
+                                    SignUp
+                                </Button>
+                        </Link>)
+                    } 
+                </Wrapper>
+                {userClicked &&  <UserTab setUserClicked = {setUserClicked} setUploadVideoClicked = {setUploadVideoClicked} />}
 
-    </Container>
-  )
+            </Container>
+            {uploadVideoClicked && <UploadVideo setUploadVideoClicked = {setUploadVideoClicked} />}
+        </div>
+
+    )
 }
 
-export default Navbar
+export default Navbar;

@@ -7,10 +7,12 @@ const VideoSchema = new Schema({
         unique:true,
         required:true
     },
+    videoFilename:{
+        type:String
+    },
     userId:{
         type:String,
-        required:true,
-        unique:true
+        required:true
     }, 
     title:{
         type:String,

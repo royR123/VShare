@@ -1,6 +1,5 @@
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import HomeIcon from '@mui/icons-material/Home';
 import ExploreIcon from '@mui/icons-material/Explore';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
@@ -63,14 +62,19 @@ const Menu = ({ whiteTheme , setWhiteTheme }) => {
           VSW
         </Logo>
       </Link>
+      <Link to = "/explore" style={{textDecoration : "none" , color : 'inherit'}}>
         <Item>
           <ExploreIcon/>
           Explore
         </Item>
+      </Link>
+      <Link to = "/subscribed" style={{textDecoration : "none" , color : 'inherit'}}>
         <Item>
           <SubscriptionsIcon />
           Subscriptions
         </Item>
+      </Link>
+
         <Item>
           <VideoLibraryIcon />
           Library
