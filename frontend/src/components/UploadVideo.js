@@ -2,9 +2,9 @@ import React , { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import app from '../config/firebase'
 import { useSelector } from 'react-redux'
-
+import AlertMessage from './AlertMessage'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
-import axios from 'axios'
+import axios from '../utils/axios'
 
 const Container = styled.div`
     position : absolute;
@@ -15,7 +15,7 @@ const Container = styled.div`
     background-color: rgba(85, 82, 82, 0.778);
     
     `
-const Closebtn = styled.button`
+const Closebtn = styled.div`
         background-color : inherit;
         color : red;
         border:none;
@@ -107,8 +107,18 @@ const Label = styled.label`
     padding: 10px;
     border-radius: 3px;
     margin-bottom: 5px;
+    
+    `
+
+const FlashMessage = styled.div`
+    width: 70%;
+    margin: auto;
+    /* padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 5px; */
 
 `
+
 
 const UploadVideo = ({ setUploadVideoClicked }) => {
     const [img,setImg] = useState(null);
@@ -119,6 +129,8 @@ const UploadVideo = ({ setUploadVideoClicked }) => {
     const [videoUrl,setVideoUrl] = useState(null);
     const [imgUrl,setImgUrl] = useState(null);
     const [filename,setFilename] = useState(null);
+    const [statusUpload,setStatusUpload] = useState(false);
+    const [type,setType] = useState(null);
 
     const {userData} = useSelector(state => state.user)
 
@@ -128,8 +140,6 @@ const UploadVideo = ({ setUploadVideoClicked }) => {
         setFilename(() => new Date().getTime() + file.name)
         const storageRef = ref(storage,new Date().getTime() + file.name );
         const uploadTask = uploadBytesResumable(storageRef, file);
-
-        
         uploadTask.on('state_changed', 
           (snapshot) => {
             
@@ -161,22 +171,34 @@ const UploadVideo = ({ setUploadVideoClicked }) => {
         );
 
     }
-    const handleUpload = (e) => {
+    const handleUpload = async (e) => {
         e.preventDefault();
+        const config = {
+            headers : {
+              "authorisation" : `Bearer ${userData?.token}`
+            }
+        }
         if(!title || !tags || !videoUrl || !imgUrl || !about)return;
-        const response = axios.post(`/video/add/${userData.userId}`,{
+        const response = await axios.post(`/video/add/${userData.userId}`,{
             videoUrl : videoUrl,
             imgUrl : imgUrl,
             title:title,
             description:about,
             tags:tags,
             videoFilename : filename
-        })
+        },config)
         if(response.status == 200){
-
+            setStatusUpload(() => true);
+            
+            setType(1);
         }else{
-
+            setStatusUpload(() => true);
+            setType(0);
         }
+        setTimeout(() => {
+            setStatusUpload(() => false);
+            setType(() => null);
+        }, 5000);
         console.log(response.data);
     }
 
@@ -190,12 +212,12 @@ const UploadVideo = ({ setUploadVideoClicked }) => {
 
     return (
         <Container>
+
+            <Form>
             <Wrapper>
                 <Heading>Upload Video</Heading>
                 <Closebtn onClick={() => setUploadVideoClicked(() => false)}>X</Closebtn>
             </Wrapper>
-
-            <Form>
                 <Label>Select the video</Label>
                 <Input type= "file" accept='video/*' onChange={(e) => {setVideo(() => e.target.files[0])}} />
                 <Input type='text' placeholder='Title*' onChange={(e) => {setTitle(() => e.target.value)}} />
@@ -205,9 +227,10 @@ const UploadVideo = ({ setUploadVideoClicked }) => {
                 <Input type='file' accept='image/*' onChange={(e) => {setImg(() => e.target.files[0])}} />
                 <Button onClick={handleUpload} >  Submit  </Button>
                 
+                {statusUpload && <FlashMessage>
+                    <AlertMessage type = {type} /> </FlashMessage>}
                 
             </Form>
-
         </Container>
     )
 }

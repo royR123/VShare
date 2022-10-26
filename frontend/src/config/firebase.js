@@ -3,11 +3,11 @@ import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_KEY,
-  authDomain: process.env.FIREBASE_AUTHDOMAIN,
-  projectId: process.env.FIREBASE_PROJECTID,
-  storageBucket: process.env.FIREBASE_STORAGEBUCKET,
-  messagingSenderId:process.env.FIREBASE_MESSAGINGSENDERID ,
-  appId: process.env.FIREBASE_APPID
+  authDomain: "vshare-d1996.firebaseapp.com",
+  projectId: "vshare-d1996", 
+  storageBucket: "vshare-d1996.appspot.com",
+  messagingSenderId: "803884128762" ,
+  appId: "1:803884128762:web:d688bdbcf02104b854ec43"
 };
 
 // Initialize Firebase

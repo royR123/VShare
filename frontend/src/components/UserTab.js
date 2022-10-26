@@ -4,7 +4,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout'
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { logout } from '../redux/userSlice';
+import { logout , loginStart } from '../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
@@ -30,17 +30,21 @@ const UserTab = ({ setUserClicked , setUploadVideoClicked , user}) => {
     }
     const handleLogoutClick = () => { 
         // const user = useSelector(state => state.user);
+        dispatch(loginStart());
         dispatch(logout());
         setUserClicked((prev) => !prev);
         navigate('/');
         window.location.reload();
+    }
+    const handleUserProfile = () => {
+        navigate('/user');
     }
     return (
         <Container>
             <Item onClick={handleAddVideoClick}>
                 <VideoCallIcon />
             </Item>
-            <Item>
+            <Item onClick = {handleUserProfile} >
                 <ManageAccountsIcon />
             </Item>
             <Item onClick = {handleLogoutClick} >

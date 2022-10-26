@@ -15,6 +15,7 @@ const verifyUser = async (req,res,next) => {
                 return res.status(403).send('tokens are expired');
             }
             req.decodedUserId = decoded.id;
+            console.log("passed by authmiddleware");
             next();
         } catch (error) {
             console.log("here it is")

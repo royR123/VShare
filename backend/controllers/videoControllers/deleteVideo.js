@@ -2,7 +2,9 @@ const Video = require("../../models/Video");
 
 const deleteVideo = async (req,res) => {
     try {
-        const deleteVideo = await Video.findOne({videoId : req.query.videoId});
+        console.log("in delete");
+        console.log(req.query.videoId);
+        const deleteVideo = await Video.findOne({videoId : req.query.videoId}); 
         if(!deleteVideo){
             res.status(400).send("video not found");
             return;
@@ -13,6 +15,7 @@ const deleteVideo = async (req,res) => {
         }
         await Video.findOneAndDelete({videoId : req.query.videoId});
         res.status(200).send("video is deleted");
+
     } catch (error) {
         res.status(500).send(error);
     }

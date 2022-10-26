@@ -11,11 +11,12 @@ const updateUser = async (req,res) =>{
             $set:req.body,
         } ,
         {new : true}) 
+        console.log(updatedUser);
         if(!updatedUser){
             res.status(400).send("user not exists");
             return;
         }
-        res.status(200).send(updatedUser);
+        res.status(200).json(updatedUser);
     } catch (error) {
         console.log(error);
         res.status(500).send("Sorry , its server error");

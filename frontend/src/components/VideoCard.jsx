@@ -3,8 +3,13 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import axios from '../utils/axios'
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import ThumbDownAltICon from '@mui/icons-material/ThumbDownAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 const Container = styled.div`
-    width: 250px;
+    width: 260px;
+    height : 300px ;
     margin-bottom : 50px;
     cursor: pointer;
     background-color: ${({ theme }) => theme.bg};
@@ -29,11 +34,20 @@ const Title = styled.div`
 `
 
 const UserName = styled.div`
-    font-weight:lighter 
+    font-weight:lighter ;
 `
 
 const Info = styled.div`
-    font-weight:lighter
+    display:flex;
+    font-weight:lighter;
+    width: 250px;
+    justify-content: space-between;
+`
+const Popularity = styled.div`
+    display: flex;
+    gap:10px;
+    justify-content: space-between;
+    align-items: center;
 `
 
 const VideoCard = ({ video }) => {
@@ -57,7 +71,17 @@ const VideoCard = ({ video }) => {
                     <Texts>
                         <Title>{video.title}</Title>
                         <UserName>{thisUser?.name}</UserName>
-                        <Info>{`${video.views} views`} </Info>
+                        <Info>
+                            {`${video.views / 2} views`}
+                            <Popularity>
+                                <>
+                                {`${video?.likes.length}`} <ThumbUpAltIcon />
+                                </>
+                                <>
+                                {`${video?.dislikes.length}`}<ThumbDownAltICon />
+                                </>
+                            </Popularity>
+                        </Info>
                     </Texts>
                 </Details>
             </Container>

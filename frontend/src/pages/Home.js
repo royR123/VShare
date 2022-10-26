@@ -12,6 +12,12 @@ const Container = styled.div`
     display: flex;
     flex-wrap : wrap;
     justify-content: space-between;
+    @media (max-width: 600px) {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      /* justify-content: center; */
+      align-items: center;
+    }
 
 `
 

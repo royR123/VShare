@@ -16,10 +16,14 @@ import Menu from './components/Menu'
 import Navbar from './components/Navbar';
 import {darkTheme , lightTheme} from './utils/Theme.js'
 import Auth from './components/Auth';
+import Search from './pages/Search';
+import UserProfile from './pages/UserProfile';
+import ChangePassword from './pages/ChangePassword';
+import YourVideos from './pages/YourVideos';
 
 const Container = styled.div`
   display : flex;
-  
+  min-height: 100vh;
 `
 
 const Main = styled.div`
@@ -32,6 +36,11 @@ const Wrapper = styled.div`
   padding: 20px 66px;
   /* padding-top : 26px; */
 `
+const MenuContainer = styled.div`
+    @media (max-width: 600px){
+      display: none;
+    }
+`
 
 
 function App() {
@@ -40,15 +49,25 @@ function App() {
     <ThemeProvider theme={(whiteTheme) ? lightTheme : darkTheme}>
       <Container>
         <Router>
-        <Menu whiteTheme={whiteTheme} setWhiteTheme = {setWhiteTheme} />
+
+        <MenuContainer>
+          <Menu whiteTheme={whiteTheme} setWhiteTheme = {setWhiteTheme} />
+        </MenuContainer>
+        
         <Main >
-          <Navbar />
+          <Navbar whiteTheme={whiteTheme} setWhiteTheme = {setWhiteTheme}   />
           <Wrapper>
             <Routes>
               <Route path='/'>
                 <Route index element = {<HomeP typeR = 'random' />} />
                 <Route path = 'explore' element = {<HomeP typeR = 'trending' />} />
                 <Route path = 'subscribed' element = {<HomeP typeR = 'subscribed' />} />
+                <Route path = 'search' element = {<Search />} />
+                <Route path = 'user' > 
+                  <Route index element = {<UserProfile />} />
+                  <Route path = 'changePassword' element = {<ChangePassword/>} />
+                  <Route path = 'yourVideos' element = {<YourVideos/>} />
+                </Route>
                 <Route path = 'video'>
                   <Route path=':id' element = {<Video />} />
                 </Route>

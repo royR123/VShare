@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import ExploreIcon from '@mui/icons-material/Explore';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
@@ -15,6 +15,7 @@ import ReportIcon from '@mui/icons-material/Report';
 import HelpIcon from '@mui/icons-material/Help';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 const Container = styled.div`
     flex : 1;
     background-color : ${({theme}) => theme.bg};
@@ -40,7 +41,7 @@ const Item = styled.div`
   display : flex;
   padding: 1.5px 6px;
   align-items : center;
-  cursor: pointer;
+  cursor: ${'pointer'};
   gap : 20px;
   margin-top : 5px;
 
@@ -49,9 +50,10 @@ const Item = styled.div`
   }
 
 `
-const Menu = ({ whiteTheme , setWhiteTheme }) => {
-  const handleClick = () =>{
-    setWhiteTheme((prev) => !prev);
+const Menu = ({ whiteTheme , setWhiteTheme  }) => {
+  const {userData} = useSelector(state => state.user)
+  const handleClickTheme  = () => {
+    setWhiteTheme((prev) => !prev)
   }
     return (
 
@@ -68,21 +70,34 @@ const Menu = ({ whiteTheme , setWhiteTheme }) => {
           Explore
         </Item>
       </Link>
-      <Link to = "/subscribed" style={{textDecoration : "none" , color : 'inherit'}}>
-        <Item>
-          <SubscriptionsIcon />
-          Subscriptions
-        </Item>
-      </Link>
+      {
+        userData &&
 
+        <Link to = "/subscribed" style={{textDecoration : "none" , color : 'inherit'}}>
+          <Item>
+            <SubscriptionsIcon />
+            Subscriptions
+          </Item>
+        </Link>
+
+      }
+      {
+        userData &&
         <Item>
           <VideoLibraryIcon />
           Library
         </Item>
+
+      }
+
+      {
+        userData &&
         <Item>
           <HistoryIcon />
           History
         </Item>
+        
+      }
         <Item>
           <LibraryMusicIcon />
           Music
@@ -119,7 +134,7 @@ const Menu = ({ whiteTheme , setWhiteTheme }) => {
           <HelpIcon/>
           Help
         </Item>
-        <Item onClick={handleClick}>
+        <Item onClick={handleClickTheme}>
           <LightModeIcon/>
           {(whiteTheme) ? 'Dark Mode' : 'Light Mode'}
         </Item>

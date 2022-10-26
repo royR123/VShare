@@ -1,10 +1,11 @@
 
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
-import { useDispatch } from 'react-redux'
+import axios from '../utils/axios'
+import { useDispatch, useSelector } from 'react-redux'
 import { loginFailure, loginStart , loginSuccess} from '../redux/userSlice'
 import { useNavigate } from 'react-router-dom'
+import { CircularProgress } from '@mui/material'
 
 const Container = styled.div`
   display: flex;
@@ -66,12 +67,20 @@ const Change = styled.div`
   color : blue;
   font-weight:lighter;
 `
+const LoadingCont = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content : center;
+  align-items: center;
+`
+
 const Auth = () => {
   const [name,setName] = useState(null);
   const [email,setEmail] = useState(null);
   const [password,setPassword] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { loading } = useSelector(state => state.user);
 
   const [forLogin,setForLogin] = useState(false);
   const handleChange = () =>{
@@ -121,18 +130,24 @@ const Auth = () => {
   };
   return (
     <Container>
-
-        <Title>
-          {!forLogin ? 'SignUp' : 'Login'}
-        </Title>
-        <Wrapper>
-          <Input type = 'text' placeholder='username'required = {true} onChange = {(e) => setName(() => e.target.value)} />
-          {!forLogin && <Input type = 'email' placeholder='email' required ={true} onChange = {(e) => setEmail(() => e.target.value)} />}
-          <Input type = 'password' placeholder='password' required = {true} onChange = {(e) => setPassword(() => e.target.value)} />
-          <Button onClick={handleClick} type = 'submit' > Submit </Button>
-          <Text>{!forLogin ? 'already have an account?' : "Don't have an account?"}</Text>
-          <Change onClick={handleChange}>{!forLogin ? 'Login' : 'SignUp'}</Change>
-        </Wrapper>
+        {loading && <CircularProgress />}
+        {
+          !loading && 
+          <>
+            <Title>
+              {!forLogin ? 'SignUp' : 'Login'}
+            </Title>
+            <Wrapper>
+              <Input type = 'text' placeholder='username'required = {true} onChange = {(e) => setName(() => e.target.value)} />
+              {!forLogin && <Input type = 'email' placeholder='email' required ={true} onChange = {(e) => setEmail(() => e.target.value)} />}
+              <Input type = 'password' placeholder='password' required = {true} onChange = {(e) => setPassword(() => e.target.value)} />
+              <Button onClick={handleClick} type = 'submit' > Submit </Button>
+              <Text>{!forLogin ? 'already have an account?' : "Don't have an account?"}</Text>
+              <Change onClick={handleChange}>{!forLogin ? 'Login' : 'SignUp'}</Change>
+            </Wrapper>
+            </>
+          
+        }
       
     </Container>
   )

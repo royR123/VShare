@@ -23,7 +23,7 @@ export const userSlice = createSlice({
         },
         logout:(state) => {
             state.userData = null;
-            state.loading = false;
+            state.loading = false; 
             state.error = false;
         },
     },

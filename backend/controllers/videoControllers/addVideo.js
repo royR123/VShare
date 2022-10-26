@@ -10,7 +10,7 @@ const addVideo = async (req,res) => {
         const videoId  = uuidv4();
         const newVideo = new Video({userId : req.params.userId, videoId : videoId , ...req.body});
         await newVideo.save();
-
+        console.log("done video uploaded ");
         res.status(200).send(newVideo);
     } catch (error) {
         res.status(500).send(error);

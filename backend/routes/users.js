@@ -23,4 +23,6 @@ router.put('/subscribe/:userId',verifyUser , require('../controllers/userControl
 //unsubscribe a user
 router.put('/unsubscribe/:userId',verifyUser , require('../controllers/userControllers/unsubscribeUser'));
 
+router.get('/videos/:userId',require('../controllers/userControllers/getVideos'))
+
 module.exports = router;

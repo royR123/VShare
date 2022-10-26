@@ -8,6 +8,9 @@ router.post('/add/:userId', verifyUser , require('../controllers/videoController
 //delete a video
 router.delete('/delete/:userId',verifyUser , require('../controllers/videoControllers/deleteVideo'));
 
+//add a view to video
+router.put('/addView/:videoId',require('../controllers/videoControllers/addView'));
+
 //update a video
 router.put('/update/:userId',verifyUser , require('../controllers/videoControllers/updateVideo'));
 
@@ -28,5 +31,11 @@ router.get('/random',require('../controllers/videoControllers/randomVideo'));
 
 //get videos by tags
 router.get('/tags',require('../controllers/videoControllers/getByTags'));
+
+//add like
+router.put('/like/:videoId',verifyUser , require('../controllers/videoControllers/addLike'));
+
+//add dislike
+router.put('/dislike/:videoId',verifyUser ,require('../controllers/videoControllers/addDislike'))
 
 module.exports = router;
