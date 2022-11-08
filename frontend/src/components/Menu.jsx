@@ -24,6 +24,7 @@ const Container = styled.div`
     position: sticky;
     top: 0px;
     left: 0px;
+    
 `
 const Wrapper = styled.div`
   padding: 10px 15px;

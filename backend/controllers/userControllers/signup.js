@@ -35,7 +35,7 @@ const signUp = async (req,res) => {
             const {password,...others} = newUser._doc;
             res.cookie("token",token,{
                 httpOnly:true , maxAge : 1
-            }).status(200).send(others);
+            }).status(200).json({...others , token : token}); 
             console.log("here");
         }
     }catch(error){

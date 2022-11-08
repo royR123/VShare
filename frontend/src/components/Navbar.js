@@ -20,7 +20,7 @@ const Container = styled.div`
     position: sticky;
     top: 0px;
     height:47px;
-    width: 100%;
+    /* width: 100vw; */
 
 `
 
@@ -101,7 +101,7 @@ const Item = styled.div`
     justify-content: center;
     align-items: center;
     
-`
+` 
 const MenuIconContainer = styled.div`
     cursor: pointer;
     &:active{

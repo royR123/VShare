@@ -37,7 +37,9 @@ const Home = ({ typeR }) => {
         "authorisation" : `Bearer ${userData?.token}`
       }
     }
-    const response = await axios.get(`/video/${typeR}`,config);
+    
+      const response = await axios.get(`/video/${typeR}`,config);
+
 
 
     if(response.status === 202){

@@ -11,7 +11,9 @@ const getSubscribedVideo  = async (req,res) => {
                 return await Video.find({ userId : subUserId});
             })
         )
-        res.status(200).send(subVideos);
+        const videos = subVideos.flat();
+        console.log(videos);
+        res.status(200).json(videos);
         // res.send(subUsers);
     } catch (error) {
         

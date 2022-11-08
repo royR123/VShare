@@ -72,13 +72,13 @@ const VideoCard = ({ video }) => {
                         <Title>{video.title}</Title>
                         <UserName>{thisUser?.name}</UserName>
                         <Info>
-                            {`${video.views / 2} views`}
+                            {`${video.views } views`}
                             <Popularity>
                                 <>
-                                {`${video?.likes.length}`} <ThumbUpAltIcon />
+                                {`${video?.likes?.length}`} <ThumbUpAltIcon />
                                 </>
                                 <>
-                                {`${video?.dislikes.length}`}<ThumbDownAltICon />
+                                {`${video?.dislikes?.length}`}<ThumbDownAltICon />
                                 </>
                             </Popularity>
                         </Info>

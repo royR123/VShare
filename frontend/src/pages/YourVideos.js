@@ -50,7 +50,7 @@ const YourVideos = () => {
   return (
     <Container>
       {videos && videos.map(video => (
-              <Item >
+              <Item key = {video.videoId} >
                   <Button onClick={() => handleDelete(video.videoId)} >
                     <DeleteOutlineTwoToneIcon />
                   </Button>

@@ -23,11 +23,11 @@ const Bad = styled.div`
     margin-bottom: 5px;
 `
 
-const AlertMessage = ({ type }) => {
+const AlertMessage = ({ type , message }) => {
   return (
     <Container>
-        {type === 0 && <Bad>Some Error</Bad>}
-        {type === 1 && <Good>Successful</Good>}
+        {type === 0 && <Bad>{message}</Bad>}
+        {type === 1 && <Good>{message}</Good>}
 
     </Container>
   )
