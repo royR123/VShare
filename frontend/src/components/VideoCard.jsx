@@ -13,6 +13,9 @@ const Container = styled.div`
     margin-bottom : 50px;
     cursor: pointer;
     background-color: ${({ theme }) => theme.bg};
+    &:hover{
+        box-shadow:2px 2px 10px ${({theme}) => theme.text};
+    }
 `
 const Image = styled.img`
     width: 100%;
