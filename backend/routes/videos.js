@@ -5,6 +5,7 @@ const { verifyUser } = require('../middlewares/authMiddleware');
 //add a video
 router.post('/add/:userId', verifyUser , require('../controllers/videoControllers/addVideo'));
 
+
 //delete a video
 router.delete('/delete/:userId',verifyUser , require('../controllers/videoControllers/deleteVideo'));
 

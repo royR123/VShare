@@ -10,7 +10,9 @@ import { useNavigate } from 'react-router-dom';
 const Container = styled.div`
     width: 45px;
     margin-left: auto;
+    z-index: 200;
     margin-top: 5px;
+
 `
 const Item = styled.div`
     cursor: pointer;

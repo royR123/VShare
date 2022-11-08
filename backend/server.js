@@ -17,6 +17,7 @@ app.use(cookieParser());
 
 app.use('/user',require('./routes/users'));
 app.use('/video',require('./routes/videos')); 
+app.use('/comment',require('./routes/comments')); 
 
 
 

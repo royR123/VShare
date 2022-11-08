@@ -16,18 +16,44 @@ import { addSubscriptions } from '../redux/userSlice'
 
 
 const Container = styled.div`
-  
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  @media (max-width : 600px) {
+    position: relative;
+    top: -50px;
+  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 `
 
 const Content = styled.div`
-  width : 100%;
-  `
+  width : 100%; 
+`
 const VideoWrapper = styled.div`
+
+width: 100%;
+margin: auto;
+max-width: 1000px;
+display:flex;
+  justify-content: center;
+  margin-inline: auto;
   &:hover{
     box-shadow: 2px 2px 10px ${({theme}) => theme.bg};
   }
+
   `
+const VideoSection = styled.video`
+
+    height: 230px;
+    width: 100%;
+    
+    `
 const Options = styled.div`
+  width: 100%;
+
   margin-top: 5px;
   display: flex;
   justify-content: space-around;
@@ -37,17 +63,6 @@ const Wrapper = styled.div`
   
 `
 
-const VideoSection = styled.video`
-  min-height : 250px;
-  max-height : 350px;
-  width : 100%;
-  object-fit : contain;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  
-`
 const Title = styled.text`
   font-weight : bolder;
   width : 100%;
@@ -64,6 +79,7 @@ const Button = styled.button`
 `
 
 const ChannelInfo = styled.div`
+  width: 100%;
   display : flex;
   align-items: center;
   height : 50px;
@@ -91,6 +107,14 @@ const SubscribedBtn = styled.span`
   padding: 6px;
   border-radius: 5px;
 `
+const CommentsSection = styled.div`
+  width:100%;
+  margin-top: 20px;
+  position: sticky;
+  top: 40px;
+
+`
+
 
 const Video = () => {
   const [showShare,setShowShare] = useState(false);
@@ -181,6 +205,9 @@ const Video = () => {
       dispatch(fetchFailure());
     }
   }
+  const goToChannel = () => {
+    navigate(`/channelPage/${videoData.userId}`);
+  }
 
   useEffect(()=>{
     const fg = false;
@@ -192,8 +219,8 @@ const Video = () => {
       <Content>
       <VideoWrapper>
         <VideoSection src = {videoData?.videoUrl} controls />
-        <Title>{videoData?.title}</Title>
       </VideoWrapper>
+      <Title>{videoData?.title}</Title>
       <Options>
         <Button onClick={handleLike}>
         {!videoData?.likes?.includes(userData?.userId)? 
@@ -214,7 +241,6 @@ const Video = () => {
         </Button>
         
       </Options>
-      </Content>
       {
         showShare &&
         <Wrapper>
@@ -224,13 +250,17 @@ const Video = () => {
 
       }
       <ChannelInfo>
-        <Image src= {channel?.img} />
+        <Image src= {channel?.img} onClick = {goToChannel} />
         <Button onClick={handleSubscribe} >
           {userData?.subscriberedUsers?.includes(videoData.userId) ? <SubscribedBtn>Subscribed</SubscribedBtn> 
           : <SubscribeBtn>Subscribe</SubscribeBtn> }
         </Button>
       </ChannelInfo>
+      <CommentsSection>
       <Comments />
+
+      </CommentsSection>
+      </Content>
     </Container>
   )
 }

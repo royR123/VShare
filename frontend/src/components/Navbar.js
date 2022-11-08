@@ -10,16 +10,16 @@ import UserTab from './UserTab';
 import UploadVideo from './UploadVideo';
 import SlidingMenu from './SlidingMenu';
 
-import axios from '../utils/axios'
 
 const MainContainer = styled.div`
+    position: sticky;
+    top: 0px;
+    height:47px;
+    z-index:80;
 
 `
 const Container = styled.div`
     background-color: ${({ theme }) => theme.bg};
-    position: sticky;
-    top: 0px;
-    height:47px;
     /* width: 100vw; */
 
 `
@@ -35,7 +35,7 @@ const Search = styled.div`
     display: flex;
     margin: auto;
     /* background-color: red; */
-    width : 40vw;
+    width : 50%;
     border-radius : 10px;
     background-color : ${({ theme }) => theme.bgLighter};
     justify-content: space-between;

@@ -20,6 +20,7 @@ import Search from './pages/Search';
 import UserProfile from './pages/UserProfile';
 import ChangePassword from './pages/ChangePassword';
 import YourVideos from './pages/YourVideos';
+import ChannelPage from './pages/ChannelPage';
 
 const Container = styled.div`
   display : flex;
@@ -72,6 +73,7 @@ function App() {
                   <Route path=':id' element = {<Video />} />
                 </Route>
                 <Route path = 'auth' element = {<Auth />} />
+                <Route path = 'channelPage/:userId' element = {<ChannelPage />} />
               </Route>
             </Routes>
           </Wrapper>
